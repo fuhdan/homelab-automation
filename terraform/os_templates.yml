@@ -13,10 +13,10 @@ os_templates:
     os_type: cloud-init
   windows2025:
     template_name: windows-server-2025
-    os_type: winserver2025
+    os_type: win11
   windows2022:
     template_name: windows-server-2022
-    os_type: winserver2022
+    os_type: win11
   windows2019:
     template_name: windows-server-2019
-    os_type: winserver2019
+    os_type: win10

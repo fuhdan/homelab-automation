@@ -1,17 +1,17 @@
 terraform {
   required_providers {
     proxmox = {
-      source  = "telmate/proxmox"
-      version = "~> 3.0"
+      source  = "bpg/proxmox"
+      version = "~> 0.66"
     }
   }
 }
 
 provider "proxmox" {
-  pm_api_url      = var.proxmox_api_url
-  pm_user         = var.proxmox_user
-  pm_password     = var.proxmox_password
-  pm_tls_insecure = true
+  endpoint = var.proxmox_api_url
+  username = var.proxmox_user
+  password = var.proxmox_password
+  insecure = true
 }
 
 locals {
@@ -20,45 +20,59 @@ locals {
   os_templates  = yamldecode(file("${path.module}/os-templates.yaml")).os_templates
 }
 
-resource "proxmox_vm_qemu" "vm" {
+data "proxmox_virtual_environment_vms" "templates" {
+  for_each  = local.os_templates
+  node_name = var.template_node
+  
+  filter {
+    name   = "name"
+    values = [each.value.template_name]
+  }
+}
+
+resource "proxmox_virtual_environment_vm" "vm" {
   for_each = { for server in local.servers : server.name => server }
 
   name        = each.value.name
-  target_node = local.proxmox_nodes[each.value.node].hostname
-  clone       = local.os_templates[each.value.os].template_name
-  full_clone  = true
+  node_name   = local.proxmox_nodes[each.value.node].hostname
 
-  cores   = each.value.vcpu
-  sockets = 1
-  memory  = each.value.memory
-  
-  agent = 1
-
-  disks {
-    scsi {
-      scsi0 {
-        disk {
-          size    = each.value.disk / 1024
-          storage = var.proxmox_storage
-        }
-      }
-    }
+  clone {
+    vm_id = data.proxmox_virtual_environment_vms.templates[each.value.os].vms[0].vm_id
+    full  = true
   }
 
-  network {
-    model  = "virtio"
+  cpu {
+    cores = each.value.vcpu
+  }
+
+  memory {
+    dedicated = each.value.memory
+  }
+
+  disk {
+    datastore_id = var.proxmox_storage
+    size         = each.value.disk / 1024
+    interface    = "scsi0"
+  }
+
+  network_device {
     bridge = var.proxmox_bridge
   }
 
-  ipconfig0 = "ip=${each.value.ip}/24,gw=${var.gateway}"
-  
-  nameserver = join(" ", var.dns_servers)
-  
-  os_type = local.os_templates[each.value.os].os_type
-  
-  lifecycle {
-    ignore_changes = [
-      network,
-    ]
+  initialization {
+    ip_config {
+      ipv4 {
+        address = "${each.value.ip}/24"
+        gateway = var.gateway
+      }
+    }
+    
+    dns {
+      servers = var.dns_servers
+    }
+  }
+
+  agent {
+    enabled = true
   }
 }

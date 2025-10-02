@@ -1,4 +1,4 @@
-name: Build Terraform Container
+name: Deploy Homelab Servers with Terraform
 
 on:
   workflow_dispatch:

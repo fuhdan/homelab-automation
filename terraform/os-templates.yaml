@@ -2,21 +2,21 @@ os_templates:
   ubuntu2404:
     template_name: ubuntu-2404-cloudinit
     os_type: cloud-init
-  ubuntu2204:
-    template_name: ubuntu-2204-cloudinit
-    os_type: cloud-init
-  rhel9:
-    template_name: rhel-9-cloudinit
-    os_type: cloud-init
-  rhel10:
-    template_name: rhel-10-cloudinit
-    os_type: cloud-init
-  windows2025:
-    template_name: windows-server-2025
-    os_type: win11
-  windows2022:
-    template_name: windows-server-2022
-    os_type: win11
-  windows2019:
-    template_name: windows-server-2019
-    os_type: win10
+#  ubuntu2204:
+#    template_name: ubuntu-2204-cloudinit
+#    os_type: cloud-init
+#  rhel9:
+#    template_name: rhel-9-cloudinit
+#    os_type: cloud-init
+#  rhel10:
+#    template_name: rhel-10-cloudinit
+#    os_type: cloud-init
+#  windows2025:
+#    template_name: windows-server-2025
+#    os_type: win11
+#  windows2022:
+#    template_name: windows-server-2022
+#    os_type: win11
+#  windows2019:
+#    template_name: windows-server-2019
+#    os_type: win10

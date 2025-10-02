@@ -14,6 +14,12 @@ variable "proxmox_password" {
   sensitive   = true
 }
 
+variable "template_node" {
+  description = "Node where templates are stored"
+  type        = string
+  default     = "asterix1"
+}
+
 variable "proxmox_storage" {
   description = "Proxmox storage name"
   type        = string
@@ -24,12 +30,6 @@ variable "proxmox_bridge" {
   description = "Proxmox network bridge"
   type        = string
   default     = "vmbr0"
-}
-
-variable "ubuntu_template" {
-  description = "Ubuntu 24.04 cloud-init template name"
-  type        = string
-  default     = "ubuntu-2404-cloudinit"
 }
 
 variable "gateway" {

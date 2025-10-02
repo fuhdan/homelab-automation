@@ -1,0 +1,28 @@
+servers:
+  - name: Troubadix
+    vcpu: 4
+    memory: 8192  # MB
+    disk: 61440   # MB (60GB)
+    ip: "192.168.40.50"
+    network: "192.168.40.0/24"
+    os: ubuntu2404
+    node: asterix1
+
+# Add more servers like this:
+#  - name: WindowsServer
+#    vcpu: 4
+#    memory: 8192
+#    disk: 102400
+#    ip: "192.168.40.51"
+#    network: "192.168.40.0/24"
+#    os: windows2022
+#    node: asterix2
+#
+#  - name: RhelServer
+#    vcpu: 2
+#    memory: 4096
+#    disk: 40960
+#    ip: "192.168.40.52"
+#    network: "192.168.40.0/24"
+#    os: rhel9
+#    node: asterix3

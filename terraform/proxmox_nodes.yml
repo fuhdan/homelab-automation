@@ -1,0 +1,10 @@
+proxmox_nodes:
+  asterix1:
+    hostname: asterix1
+    ip: 192.168.30.10
+  asterix2:
+    hostname: asterix2
+    ip: 192.168.30.11
+  asterix3:
+    hostname: asterix3
+    ip: 192.168.30.12
